@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+	<title>CS160 :: Portfolio :: Collin Mulhern :: Wesley Prager</title>
+	<link rel="stylesheet" href="styles.css" type="text/css" />
+	<!-- <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/> -->
+	<script src="http://code.jquery.com/jquery-latest.js"></script>
+	<!-- // <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script> -->
+</head>
+
+<body>
+	<div id="frame">
+		<div id="beam1"></div>
+		<div id="beam2"></div>
+		<div id="beam3"></div>
+		<div id="beam4"></div>
+		
+		<div id="lens1">
+			<p>Java</p>
+			<img src="imgs/lens.jpg" alt="lens">
+			<div class="dropdown">
+				<p>Use this filter to show all the works using Java</p>
+			</div>
+		</div>
+		<div id="lens2">
+			<p>Design</p>
+			<img src="imgs/lens.jpg" alt="lens">
+			<div class="dropdown">
+				<p>Use this filter to show all the works using Design</p>
+			</div>
+		</div>
+		<div id="lens3">
+			<p>Math</p>
+			<img src="imgs/lens.jpg" alt="lens">
+			<div class="dropdown">
+				<p>Use this filter to show all the works using Math</p>
+			</div>
+		</div>
+		
+		<div id="prism">
+			<img src="imgs/pyramid.jpg" alt="prism">
+			<div class="dropdown">
+				<p>ORDER BY:</p>
+				<ul>
+					<li id="nameOrder"><a href="#">Name</a></li>
+					<li id="sizeOrder"><a href="#">Size</a></li>
+					<li id="dateOrder"><a href="#">Date</a></li>
+				</ul>
+			</div>
+		</div>
+		
+		<p id="orderedby">Ordered by NAME</p>
+		<div id="triangle"></div>
+		<div id="dropbox"><span id="droplabel">Drop files here!</span></div>
+	</div>
+	
+	<script>
+		/* VARIABLES */
+		var fileDisplay = [];
+		var allFiles = [];
+		var lens1Files = [];
+		var lens2Files = [];
+		var lens3Files = [];
+		var lens1state = 1;
+		var lens2state = 1;
+		var lens3state = 1;
+		var sortby = 0; // 0-sort by name; 1-sort by size; 2-sort by date
+		
+		$(document).ready(function() {
+			var dropbox = document.getElementById("dropbox");
+			// init event handlers
+			dropbox.addEventListener("dragenter", dragEnter, false);
+			dropbox.addEventListener("dragexit", dragExit, false);
+			dropbox.addEventListener("dragover", dragOver, false);
+			dropbox.addEventListener("drop", drop, false);
+		});
+		
+		/* DRAG AND DROP */
+		function dragEnter(evt) {
+			evt.stopPropagation();
+			evt.preventDefault();
+		}
+		
+		function dragExit(evt) {
+			evt.stopPropagation();
+			evt.preventDefault();
+		}
+		
+		function dragOver(evt) {
+			evt.stopPropagation();
+			evt.preventDefault();
+		}
+		
+		function drop(evt) {
+			evt.stopPropagation();
+			evt.preventDefault();
+			var files = evt.dataTransfer.files;
+			var count = files.length;
+			// Only call the handler if 1 or more files was dropped.
+			if (count > 0) {
+				handleFiles(files);
+			}
+		}
+		
+		function handleFiles(files) {
+			var file = files[0];
+			
+			allFiles.push(file);
+			if(lens1state == 0) {
+				lens1Files.push(file);
+			}
+			if(lens2state == 0) {
+				lens2Files.push(file);
+			}
+			if(lens3state == 0) {
+				lens3Files.push(file);
+			}
+			
+			document.getElementById("droplabel").innerHTML = "<ul>" + listFiles() + "</ul>";
+		}
+		
+		/* DOCUMENT FILTERING */
+		function listFiles() {
+			var rtn = "";
+			var display = [];
+			
+			if(lens1state == 1 && lens2state == 1 && lens3state == 1) {
+				display = allFiles;
+			} else if(lens1state == 1 && lens2state == 1 && lens3state == 0) {
+				display = lens3Files;
+			} else if(lens1state == 1 && lens2state == 0 && lens3state == 1) {
+				display = lens2Files;
+			} else if(lens1state == 1 && lens2state == 0 && lens3state == 0) {
+				for(var i=0; i<lens2Files.length; i++) {
+					for(var j=0; j<lens3Files.length; j++) {
+						if(lens2Files[i] == lens3Files[j]) {
+							display.push(lens3Files[j]);
+							break;
+						}
+					}
+				}
+			} else if(lens1state == 0 && lens2state == 1 && lens3state == 1) {
+				display = lens1Files;
+			} else if(lens1state == 0 && lens2state == 1 && lens3state == 0) {
+				for(var i=0; i<lens1Files.length; i++) {
+					for(var j=0; j<lens3Files.length; j++) {
+						if(lens1Files[i] == lens3Files[j]) {
+							display.push(lens3Files[j]);
+							break;
+						}
+					}
+				}
+			} else if(lens1state == 0 && lens2state == 0 && lens3state == 1) {
+				for(var i=0; i<lens1Files.length; i++) {
+					for(var j=0; j<lens2Files.length; j++) {
+						if(lens1Files[i] == lens2Files[j]) {
+							display.push(lens2Files[j]);
+							break;
+						}
+					}
+				}
+			} else if(lens1state == 0 && lens2state == 0 && lens3state == 0) {
+				var temp = [];
+				for(var i=0; i<lens2Files.length; i++) {
+					for(var j=0; j<lens3Files.length; j++) {
+						if(lens2Files[i] == lens3Files[j]) {
+							temp.push(lens3Files[j]);
+							break;
+						}
+					}
+				}
+				for(var i=0; i<temp.length; i++) {
+					for(var j=0; j<lens1Files.length; j++) {
+						if(temp[i] == lens1Files[j]) {
+							display.push(lens1Files[j]);
+							break;
+						}
+					}
+				}
+			}
+			
+			fileDisplay = display;
+			sortDocuments();
+			for(var i=0; i<fileDisplay.length; i++) {
+				rtn += "<li>" + fileDisplay[i].name + "</li>";
+			}
+			return rtn;
+		}
+		
+		/* LENS MOVEMENT */
+		$("#lens1").click(function() {
+			if(lens1state == 1) {
+				$("#lens1").animate({
+					"top": "+=100px"
+				}, 2500, function() {
+					// Animation complete
+					handleDisplay();
+				});
+			lens1state = 0;
+			} else { // lens1state == 0
+				$("#lens1").animate({
+					"top": "-=100px"
+				}, 2500, function() {
+					// Animation complete
+					handleDisplay();
+				});
+			lens1state = 1;
+			}
+		});
+		
+		$("#lens2").click(function() {
+			if(lens2state == 1) {
+				$("#lens2").animate({
+					"top": "+=100px"
+				}, 2500, function() {
+					// Animation complete
+					handleDisplay();
+				});
+			lens2state = 0;
+			} else { // lens2state == 0
+				$("#lens2").animate({
+					"top": "-=100px"
+				}, 2500, function() {
+					// Animation complete
+					handleDisplay();
+				});
+			lens2state = 1;
+			}
+		});
+		
+		$("#lens3").click(function() {
+			if(lens3state == 1) {
+				$("#lens3").animate({
+					"top": "+=100px"
+				}, 2500, function() {
+					// Animation complete
+					handleDisplay();
+				});
+			lens3state = 0;
+			} else { // lens3state == 0
+				$("#lens3").animate({
+					"top": "-=100px"
+				}, 2500, function() {
+					// Animation complete
+					handleDisplay();
+				});
+			lens3state = 1;
+			}
+		});
+		
+		/* DROPDOWN MENUS */
+		$("#prism").hover(function() {
+			$("#orderedby").css({"display": "none"});
+			$(".dropdown", this).stop().slideDown(100);
+		}, function() {
+			$("#orderedby").css({"display": "inline"});
+			$(".dropdown", this).stop().slideUp(100);
+		});
+		
+		$("#lens1").hover(function() {
+			$(".dropdown", this).stop().slideDown(100);
+		}, function() {
+			$(".dropdown", this).stop().slideUp(100);
+		});
+		$("#lens2").hover(function() {
+			$(".dropdown", this).stop().slideDown(100);
+		}, function() {
+			$(".dropdown", this).stop().slideUp(100);
+		});
+		$("#lens3").hover(function() {
+			$(".dropdown", this).stop().slideDown(100);
+		}, function() {
+			$(".dropdown", this).stop().slideUp(100);
+		});
+		
+		/* SWITCHING ORDERED BY */
+		$("#nameOrder").click(function() {
+			document.getElementById("orderedby").innerHTML = "Ordered by NAME";
+			sortby = 0;
+			document.getElementById("droplabel").innerHTML = "<ul>" + listFiles() + "</ul>";
+		});
+		$("#sizeOrder").click(function() {
+			document.getElementById("orderedby").innerHTML = "Ordered by SIZE";
+			sortby = 1;
+			document.getElementById("droplabel").innerHTML = "<ul>" + listFiles() + "</ul>";
+		});
+		$("#dateOrder").click(function() {
+			document.getElementById("orderedby").innerHTML = "Ordered by DATE";
+			sortby = 2;
+			document.getElementById("droplabel").innerHTML = "<ul>" + listFiles() + "</ul>";
+		});
+		
+		/* LIGHT BEAM COLOR & DOCUMENT FILTERING */
+		function handleDisplay() {
+			if(lens1state == 1 && lens2state == 1 && lens3state == 1) {
+				$("#beam2").css({"border-color": "#ffffff"});
+				$("#beam3").css({"border-color": "#ffffff"});
+				$("#beam4").css({"border-color": "#ffffff"});
+			} else if(lens1state == 1 && lens2state == 1 && lens3state == 0) {
+				$("#beam2").css({"border-color": "#ffffff"});
+				$("#beam3").css({"border-color": "#ffffff"});
+				$("#beam4").css({"border-color": "#ff0000"});
+			} else if(lens1state == 1 && lens2state == 0 && lens3state == 1) {
+				$("#beam2").css({"border-color": "#ffffff"});
+				$("#beam3").css({"border-color": "#00ff00"});
+				$("#beam4").css({"border-color": "#00ff00"});
+			} else if(lens1state == 1 && lens2state == 0 && lens3state == 0) {
+				$("#beam2").css({"border-color": "#ffffff"});
+				$("#beam3").css({"border-color": "#00ff00"});
+				$("#beam4").css({"border-color": "#ffff00"});
+			} else if(lens1state == 0 && lens2state == 1 && lens3state == 1) {
+				$("#beam2").css({"border-color": "#0000ff"});
+				$("#beam3").css({"border-color": "#0000ff"});
+				$("#beam4").css({"border-color": "#0000ff"});
+			} else if(lens1state == 0 && lens2state == 1 && lens3state == 0) {
+				$("#beam2").css({"border-color": "#0000ff"});
+				$("#beam3").css({"border-color": "#0000ff"});
+				$("#beam4").css({"border-color": "#ff00ff"});
+			} else if(lens1state == 0 && lens2state == 0 && lens3state == 1) {
+				$("#beam2").css({"border-color": "#0000ff"});
+				$("#beam3").css({"border-color": "#00ffff"});
+				$("#beam4").css({"border-color": "#00ffff"});
+			} else if(lens1state == 0 && lens2state == 0 && lens3state == 0) {
+				$("#beam2").css({"border-color": "#0000ff"});
+				$("#beam3").css({"border-color": "#00ffff"});
+				$("#beam4").css({"border-color": "#ffffff"});
+			}
+			document.getElementById("droplabel").innerHTML = "<ul>" + listFiles() + "</ul>";
+		}
+		
+		function sortDocuments() {
+			if(sortby == 0) {
+				fileDisplay.sort(SortByName);
+			} else if(sortby == 1) {
+				fileDisplay.sort(SortBySize);
+			} else { // sortby == 2
+				fileDisplay.sort(SortByDate);
+			}
+		}
+		
+		function SortByName(a, b) {
+			var aName = a.name.toLowerCase();
+			var bName = b.name.toLowerCase();
+			return ((aName < bName) ? -1 : ((aName > bName) ? 1 : 0));
+		}
+		function SortBySize(a, b) {
+			var aSize = a.size;
+			var bSize = b.size;
+			return ((aSize < bSize) ? -1 : ((aSize > bSize) ? 1 : 0));
+		}
+		function SortByDate(a, b) {
+			var aDate = a.lastModifiedDate;
+			var bDate = b.lastModifiedDate;
+			return ((aDate < bDate) ? -1 : ((aDate > bDate) ? 1 : 0));
+		}
+	</script>
+	
+</body>
+
+</html>

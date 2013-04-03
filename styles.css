@@ -1,0 +1,155 @@
+body {
+	background-color: #002240;
+	color: #80ffbb;
+}
+
+a {
+	color: #80ffbb;
+}
+
+a:hover {
+	color: #ff0000;
+}
+
+#box {
+	position: relative;
+	height: 800px;
+	width: 900px;
+}
+
+#test{
+	width: 0;
+	height: 0;
+	border-top: 20px;
+	border-bottom: 20px;
+	border-right: 20px;
+	border-style: solid;
+	border-color: #ff00ff;
+}
+
+#beam1 {
+	float: left;
+	width: 0;
+	height: 0;
+	border-top: 5px;
+	border-bottom: 5px;
+	border-right: 140px;
+	border-style: solid;
+	border-color: #ffffff;
+	margin-top: 200px;
+	position: absolute;
+}
+
+#beam2 {
+	float: left;
+	width: 0;
+	height: 0;
+	border-top: 5px;
+	border-bottom: 5px;
+	border-right: 100px;
+	border-style: solid;
+	border-color: #ffffff;
+	margin-top: 200px;
+	position: absolute;
+	left: 150px;
+}
+#beam3 {
+	float: left;
+	width: 0;
+	height: 0;
+	border-top: 5px;
+	border-bottom: 5px;
+	border-right: 100px;
+	border-style: solid;
+	border-color: #ffffff;
+	margin-top: 200px;
+	position: absolute;
+	left: 250px;
+}
+
+#beam4 {
+	float: left;
+	width: 0;
+	height: 0;
+	border-top: 5px;
+	border-bottom: 5px;
+	border-right: 150px;
+	border-style: solid;
+	border-color: #ffffff;
+	margin-top: 200px;
+	position: absolute;
+	left: 350px;
+}
+
+#lens1 {
+	margin-top: 25px;
+	position: absolute;
+	left: 150px;
+}
+
+#lens2 {
+	margin-top: 25px;
+	position: absolute;
+	left: 250px;
+}
+
+#lens3 {
+	margin-top: 25px;
+	position: absolute;
+	left: 350px;
+}
+
+#prism {
+	float: left;
+	position: absolute;
+	left: 450px;
+	z-index:-1;
+	margin-top: 140px;
+	list-style: none;
+}
+
+.dropdown {
+	position: absolute;
+	width: 100px;
+	padding: 10px;
+	margin: 0px 0px 0px 0px;
+	display: none;
+	background: #000000;
+	opacity: 0.8;
+}
+
+#orderedby {
+	float: left;
+	position: absolute;
+	left: 450px;
+	margin-top: 275px;
+}
+
+#triangle {
+	float: left;
+	width: 0;
+	height: 0;
+	border-top: 200px solid transparent;
+	border-bottom: 200px solid transparent;
+	border-right: 200px solid #FEFFEC;
+	position: absolute;
+	left: 570px;
+}
+
+#dropbox {
+	float: left;
+	width: 567px;
+	height: 400px;
+	background-color: #FEFFEC;
+	position: absolute;
+	left: 770px;
+}
+
+#droplabel {
+	color: #000000;
+	font-size: 1.5em;
+	font-family: arial, sans-serif;
+	position: relative;
+	top: 5%;
+	left: 5%;
+}
