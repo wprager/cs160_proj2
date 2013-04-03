@@ -1,0 +1,17 @@
+cs160_proj2
+===========
+
+OVERVIEW
+
+	This assignment is a review of some animation tools and a basic interaction with the back-end. We will explore new mouse interactions (such as hovering and drag & drop). We will adapt the visualization content based on information stored in a database and interact with it. The goal is to implement an animated interface for a personal portfolio (i.e. collection of personal papers and designs) which can be clustered/segmented according to different themes. Instead of choosing a traditional Venn Diagram to cluster/segment the different portfolio documents, we will use an innovative interactive design based on an optics theme, using light filtering as a way to represent the different segmentation/clustering themes. You will need to implement smooth transitions directly using HTML5/CSS3. Your solution will ideally run on any browser, but we will be testing it on Google Chrome. Google Chrome, like Apple Safari, is based on the Webkit engine, which has the highest level of HTML5 compliance at this time.
+
+INSTRUCTIONS
+
+Main Display:
+	Your main display should show a light ray being filtered by three different filtering lenses, and then diffused/decomposed by a prism. The white light source represents all the documents in your portfolio, the lenses describe the three main categories that will filter the white light source and the prism will be used to diffuse/decompose the light (in order to see its contents, i.e. the actual portfolio documents listed). As the lenses are applied to the white light source, the light color changes, and the list of documents shown after the prism changes according to the filtering lens. The documents presented are the intersection of each of the different categories represented by the light filter lenses. An additional function of the prism is to use it as a way to define the type of ordering of the documents, i.e. order them by name, date, place, etc. All the elements (filters, prism and documents) should have a simple semi-transparent menu that gives a quick description of the item when mouse is hovered on top of them. Finally, in addition to using your portfolio for others to see your projects, this interface should allow you (the owner of the portfolio) to add new documents to the different categories. To do this, you only need to drag and drop documents into the diffused light stream.
+
+Behaviors:
+	The lenses have a simple and smooth behavior of moving up and down by dragging them (or by clicking). The movement must be smooth yet not too slow to make the user anxious. The shape of the lenses should be clearly descriptive of its filtering affordance (i.e. some 3D or reflex effect should be added for the user to clearly identify the concave shape).
+	Hovering over the elements (lenses, prism and documents) will generate a drop down description of the element in a semi-transparent box.
+	Hovering over the prism will display a roll-down menu where you can select the type of ordering of the information (i.e. by name, by author, by date, etc.)
+	Dragging and dropping any file from your computer into the dispersed light stream will make it be part of your portfolio and tagged under the current lens combination selected.
